@@ -1,0 +1,397 @@
+// Prisma Schema for SynthAvatar
+// AI-Powered UGC Content Creation Platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  clerkId       String    @unique
+  email         String    @unique
+  username      String?   @unique
+  firstName     String?
+  lastName      String?
+  imageUrl      String?
+
+  // Subscription & Billing
+  tier          UserTier  @default(FREE)
+  apiKeyMode    ApiKeyMode @default(PLATFORM)
+  customApiKeys Json?     // Store encrypted API keys if BYOK
+
+  // Usage Tracking
+  creditsUsed   Int       @default(0)
+  creditsLimit  Int       @default(100) // Based on tier
+
+  // Relationships
+  characters    Character[]
+  assets        Asset[]
+  videos        Video[]
+  generations   Generation[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([clerkId])
+  @@index([email])
+}
+
+enum UserTier {
+  FREE
+  CREATOR
+  PRO
+  AGENCY
+  ENTERPRISE
+}
+
+enum ApiKeyMode {
+  PLATFORM  // Use SynthAvatar's API keys
+  BYOK      // Bring Your Own Key
+}
+
+// ============================================
+// CHARACTER DNA SYSTEM
+// ============================================
+
+model Character {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name          String
+  description   String?
+  thumbnailUrl  String?
+
+  // Character DNA (comprehensive JSON)
+  dna           Json      // Full DNA structure
+  dnaVersion    String    @default("1.0")
+
+  // Vector embedding for similarity search
+  embeddingId   String?   @unique // Pinecone vector ID
+
+  // Metadata
+  isPublic      Boolean   @default(false)
+  isTemplate    Boolean   @default(false)
+  clonedFrom    String?   // Character ID if cloned
+
+  // Usage stats
+  videoCount    Int       @default(0)
+  generationCount Int     @default(0)
+
+  // Relationships
+  videos        Video[]
+  generations   Generation[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([isPublic])
+  @@index([embeddingId])
+}
+
+// ============================================
+// ASSET MANAGEMENT
+// ============================================
+
+model Asset {
+  id            String      @id @default(cuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name          String
+  description   String?
+  type          AssetType
+
+  // Storage
+  originalUrl   String      // Original uploaded file
+  processedUrl  String?     // Processed/optimized version
+  thumbnailUrl  String?
+
+  // File metadata
+  fileSize      Int         // bytes
+  mimeType      String
+  dimensions    Json?       // {width, height} for images/videos
+  duration      Float?      // seconds for videos
+
+  // Processing status
+  status        AssetStatus @default(PENDING)
+  processingError String?
+
+  // Relationships
+  videos        VideoAsset[]
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([type])
+  @@index([status])
+}
+
+enum AssetType {
+  IMAGE
+  VIDEO
+  AUDIO
+}
+
+enum AssetStatus {
+  PENDING
+  PROCESSING
+  READY
+  FAILED
+}
+
+// ============================================
+// VIDEO GENERATION
+// ============================================
+
+model Video {
+  id              String        @id @default(cuid())
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  characterId     String
+  character       Character     @relation(fields: [characterId], references: [id])
+
+  // Video configuration
+  title           String
+  description     String?
+  script          String
+
+  // Scene configuration
+  sceneTemplate   String        // e.g., "studio", "home_office"
+  sceneConfig     Json          // Scene-specific settings
+
+  // Product injection
+  placementMode   PlacementMode?
+  placementConfig Json?         // Placement zones, overlay settings
+
+  // Output specifications
+  resolution      Resolution    @default(HD_1080P)
+  aspectRatio     AspectRatio   @default(VERTICAL_9_16)
+  duration        Int           // seconds
+  format          String        @default("mp4")
+
+  // Generated output
+  outputUrl       String?
+  thumbnailUrl    String?
+  fileSize        Int?          // bytes
+
+  // Status tracking
+  status          VideoStatus   @default(QUEUED)
+  progress        Int           @default(0) // 0-100
+
+  // AI Model used
+  modelUsed       String?       // e.g., "gemini-2.0-flash"
+
+  // Quality metrics
+  qualityScore    Float?        // 0-1
+  consistencyScore Float?       // Character consistency 0-1
+  lipSyncScore    Float?        // 0-1
+
+  // Error handling
+  errorMessage    String?
+  retryCount      Int           @default(0)
+
+  // Relationships
+  assets          VideoAsset[]
+  generations     Generation[]
+
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  completedAt     DateTime?
+
+  @@index([userId])
+  @@index([characterId])
+  @@index([status])
+}
+
+enum VideoStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum Resolution {
+  HD_720P
+  HD_1080P
+  UHD_4K
+}
+
+enum AspectRatio {
+  SQUARE_1_1
+  VERTICAL_9_16
+  HORIZONTAL_16_9
+  FEED_4_5
+}
+
+enum PlacementMode {
+  HAND_HELD
+  TABLETOP
+  BACKGROUND
+  OVERLAY
+  DEMO
+}
+
+// ============================================
+// MANY-TO-MANY: VIDEO <-> ASSET
+// ============================================
+
+model VideoAsset {
+  id          String   @id @default(cuid())
+  videoId     String
+  video       Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  assetId     String
+  asset       Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  // Placement details for this asset in this video
+  placementZone String?  // e.g., "center", "top-right"
+  placementConfig Json?  // Specific positioning data
+
+  createdAt   DateTime @default(now())
+
+  @@unique([videoId, assetId])
+  @@index([videoId])
+  @@index([assetId])
+}
+
+// ============================================
+// GENERATION JOBS (Job Queue Tracking)
+// ============================================
+
+model Generation {
+  id            String          @id @default(cuid())
+  userId        String
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  videoId       String
+  video         Video           @relation(fields: [videoId], references: [id], onDelete: Cascade)
+
+  characterId   String
+  character     Character       @relation(fields: [characterId], references: [id])
+
+  // Job queue tracking
+  jobId         String          @unique // BullMQ job ID
+  queueName     String          @default("video-generation")
+
+  // Model selection
+  primaryModel  String          // e.g., "gemini-2.0-flash"
+  fallbackChain String[]        // Ordered list of fallbacks
+  modelAttempts Json[]          // Track each model attempt
+
+  // Cost tracking
+  estimatedCost Float?
+  actualCost    Float?
+  creditsUsed   Int             @default(0)
+
+  // Status
+  status        GenerationStatus @default(PENDING)
+  progress      Int              @default(0)
+
+  // Timing
+  startedAt     DateTime?
+  completedAt   DateTime?
+  duration      Int?             // seconds
+
+  // Error tracking
+  errorCode     String?
+  errorMessage  String?
+  retryCount    Int              @default(0)
+  maxRetries    Int              @default(3)
+
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([userId])
+  @@index([videoId])
+  @@index([jobId])
+  @@index([status])
+}
+
+enum GenerationStatus {
+  PENDING
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  RETRY
+}
+
+// ============================================
+// AI MODEL CONFIGURATION
+// ============================================
+
+model AIModel {
+  id            String      @id @default(cuid())
+  name          String      @unique // e.g., "gemini-2.0-flash"
+  provider      String      // e.g., "google", "openai"
+  version       String
+
+  // Capabilities
+  capabilities  Json        // {videoGeneration: true, imageGeneration: true, ...}
+  maxDuration   Int         // seconds
+  maxResolution Resolution
+  supportedFormats String[]
+
+  // Cost (per generation)
+  costPer720p   Float       // USD
+  costPer1080p  Float
+  costPer4K     Float
+
+  // Performance metrics
+  avgSpeed      Float?      // seconds per video
+  qualityScore  Float?      // 0-1
+  reliabilityScore Float?   // 0-1
+
+  // Status
+  isActive      Boolean     @default(true)
+  isAvailable   Boolean     @default(true)
+
+  // Rate limits
+  requestsPerMin Int?
+  requestsPerDay Int?
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([provider])
+  @@index([isActive])
+}
+
+// ============================================
+// USAGE & ANALYTICS
+// ============================================
+
+model UsageLog {
+  id            String      @id @default(cuid())
+  userId        String
+
+  action        String      // e.g., "video_generation", "character_creation"
+  resource      String      // e.g., "video", "character"
+  resourceId    String?
+
+  creditsUsed   Int
+  cost          Float?      // USD
+
+  metadata      Json?       // Additional context
+
+  createdAt     DateTime    @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
