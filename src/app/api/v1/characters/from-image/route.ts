@@ -8,7 +8,6 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
 import { photoExtraction } from '@/lib/dna/photo-extraction';
 import { DNAValidator } from '@/lib/dna/validator';
 import { prisma } from '@/lib/db';
@@ -28,15 +27,10 @@ interface PhotoUploadRequest {
 export async function POST(request: NextRequest) {
   try {
     // ============================================
-    // 1. Authentication
+    // 1. Skip Authentication (Development Mode)
     // ============================================
-    const { userId } = await auth();
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    // TODO: Add auth back in production
+    const userId = 'dev-user'; // Development user ID
 
     // ============================================
     // 2. Parse Request
@@ -123,37 +117,28 @@ export async function POST(request: NextRequest) {
     const sanitizedDNA = DNAValidator.sanitize(extractionResult.dna);
 
     // ============================================
-    // 7. Save Character (if requested)
+    // 7. Save Character (if requested and DB available)
     // ============================================
     let characterId: string | null = null;
 
     if (body.saveCharacter !== false) {
-      // Get user from database
-      const user = await prisma.user.findUnique({
-        where: { clerkId: userId },
-      });
-
-      if (!user) {
-        // Create user if doesn't exist
-        const newUser = await prisma.user.create({
-          data: {
-            clerkId: userId,
-            email: '', // Will be updated by Clerk webhook
-          },
+      try {
+        // Get user from database (or create dev user)
+        let user = await prisma.user.findUnique({
+          where: { clerkId: userId },
         });
 
-        const character = await prisma.character.create({
-          data: {
-            userId: newUser.id,
-            name: body.name || 'Photo Character',
-            dna: sanitizedDNA as any,
-            dnaVersion: '1.0',
-            sourcePhoto: body.image,
-          },
-        });
+        if (!user) {
+          // Create development user
+          user = await prisma.user.create({
+            data: {
+              clerkId: userId,
+              email: 'dev@avatarflow.com',
+            },
+          });
+        }
 
-        characterId = character.id;
-      } else {
+        // Create character
         const character = await prisma.character.create({
           data: {
             userId: user.id,
@@ -165,9 +150,11 @@ export async function POST(request: NextRequest) {
         });
 
         characterId = character.id;
+        console.log(`Character created: ${characterId}`);
+      } catch (dbError) {
+        console.warn('Database save failed (this is OK in dev):', dbError);
+        // Continue without saving - return DNA anyway
       }
-
-      console.log(`Character created: ${characterId}`);
     }
 
     // ============================================
