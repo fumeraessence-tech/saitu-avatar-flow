@@ -71,12 +71,25 @@ Return ONLY valid JSON, no markdown or explanations.`;
 // ============================================
 
 export class PhotoExtractionService {
-  private gemini: GoogleGenerativeAI;
-  private openai: OpenAI;
+  private gemini?: GoogleGenerativeAI;
+  private openai?: OpenAI;
 
   constructor() {
-    this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-    this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    // Lazy initialization - clients created when first needed
+  }
+
+  private getGemini(): GoogleGenerativeAI {
+    if (!this.gemini) {
+      this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+    }
+    return this.gemini;
+  }
+
+  private getOpenAI(): OpenAI {
+    if (!this.openai) {
+      this.openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    }
+    return this.openai;
   }
 
   /**
@@ -155,7 +168,7 @@ export class PhotoExtractionService {
    * Analyze photo using Google Gemini Vision
    */
   private async analyzeWithGemini(imageBuffer: Buffer): Promise<any> {
-    const model = this.gemini.getGenerativeModel({
+    const model = this.getGemini().getGenerativeModel({
       model: 'gemini-2.0-flash-exp',
     });
 
@@ -184,7 +197,7 @@ export class PhotoExtractionService {
    * Analyze photo using GPT-4o Vision (fallback)
    */
   private async analyzeWithGPT4Vision(imageBuffer: Buffer): Promise<any> {
-    const response = await this.openai.chat.completions.create({
+    const response = await this.getOpenAI().chat.completions.create({
       model: 'gpt-4o',
       messages: [
         {
