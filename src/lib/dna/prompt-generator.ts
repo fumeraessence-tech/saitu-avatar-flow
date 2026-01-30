@@ -546,8 +546,8 @@ function extractDistinguishingFeatures(dna: CharacterDNA): string {
     features.push(`freckle pattern on ${dna.skin.freckles.distribution}`);
   }
 
-  if (dna.distinguishingFeatures.beautyMarks.has) {
-    features.push('specific beauty marks');
+  if (dna.distinguishingFeatures.birthmarks && dna.distinguishingFeatures.birthmarks.length > 0) {
+    features.push('specific birthmarks');
   }
 
   if (dna.distinguishingFeatures.scars.length > 0) {
