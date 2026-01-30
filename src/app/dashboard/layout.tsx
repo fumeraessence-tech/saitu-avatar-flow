@@ -22,12 +22,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   ];
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
-      <aside className="w-20 bg-white border-r border-gray-200 flex flex-col items-center py-6">
+      <aside className="w-20 bg-black flex flex-col items-center py-6">
         {/* Logo */}
         <Link href="/" className="mb-8">
-          <div className="w-10 h-10 bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+          <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-black font-bold text-xl">
             A
           </div>
         </Link>
@@ -40,10 +40,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group relative flex flex-col items-center justify-center w-14 h-14 rounded-xl transition-all ${
+                className={`group relative flex flex-col items-center justify-center w-14 h-14 rounded-lg transition-all ${
                   isActive
-                    ? 'bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white shadow-lg scale-110'
-                    : 'text-gray-600 hover:bg-gray-100'
+                    ? 'bg-white text-black'
+                    : 'text-gray-400 hover:bg-gray-900'
                 }`}
                 title={item.label}
               >
@@ -60,7 +60,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* User Profile */}
         <div className="mt-auto">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold cursor-pointer hover:scale-110 transition-transform">
+          <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-white font-bold cursor-pointer hover:bg-gray-700 transition-colors">
             D
           </div>
         </div>

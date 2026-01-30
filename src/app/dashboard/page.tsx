@@ -1,171 +1,168 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-
-interface Stats {
-  totalCharacters: number;
-  totalVideos: number;
-  videosToday: number;
-  storageUsed: string;
-}
+import { useState } from 'react';
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState<Stats>({
-    totalCharacters: 0,
-    totalVideos: 0,
-    videosToday: 0,
-    storageUsed: '0 GB',
-  });
+  const [selectedModel, setSelectedModel] = useState('kling-2.6');
+  const [selectedActor, setSelectedActor] = useState<string | null>(null);
+  const [script, setScript] = useState('');
+  const [showSettings, setShowSettings] = useState(false);
 
-  useEffect(() => {
-    // In production, fetch real stats from API
-    setStats({
-      totalCharacters: 12,
-      totalVideos: 47,
-      videosToday: 3,
-      storageUsed: '2.4 GB',
-    });
-  }, []);
-
-  const statCards = [
-    {
-      label: 'Total Characters',
-      value: stats.totalCharacters,
-      icon: '👤',
-      gradient: 'from-blue-500 to-cyan-500',
-    },
-    {
-      label: 'Total Videos',
-      value: stats.totalVideos,
-      icon: '🎬',
-      gradient: 'from-purple-500 to-pink-500',
-    },
-    {
-      label: 'Videos Today',
-      value: stats.videosToday,
-      icon: '📊',
-      gradient: 'from-orange-500 to-red-500',
-    },
-    {
-      label: 'Storage Used',
-      value: stats.storageUsed,
-      icon: '💾',
-      gradient: 'from-green-500 to-teal-500',
-    },
-  ];
-
-  const quickActions = [
-    {
-      title: 'Create Character',
-      description: 'Upload a photo and generate AI avatar',
-      icon: '✨',
-      href: '/dashboard/characters',
-      gradient: 'from-purple-500 to-pink-500',
-    },
-    {
-      title: 'Generate Video',
-      description: 'Create UGC video with your characters',
-      icon: '🎥',
-      href: '/dashboard/videos',
-      gradient: 'from-blue-500 to-cyan-500',
-    },
-    {
-      title: 'DNA Builder',
-      description: 'Customize character features manually',
-      icon: '🧬',
-      href: '/dashboard/dna-builder',
-      gradient: 'from-orange-500 to-red-500',
-    },
+  const models = [
+    { id: 'sora-2', name: 'Sora 2', badge: 'NEW' },
+    { id: 'kling-2.6', name: 'Kling 2.6', badge: 'BEST' },
+    { id: 'veo-3.1', name: 'Veo 3.1', badge: null },
+    { id: 'runway-gen4', name: 'Runway Gen-4', badge: null },
+    { id: 'luma-ray2', name: 'Luma Ray 2', badge: null },
   ];
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500 mt-1">
-          Welcome to AvatarFlow - Create ultra-realistic AI avatars
-        </p>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statCards.map((stat) => (
-          <div
-            key={stat.label}
-            className="bg-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-shadow"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-sm">{stat.label}</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">
-                  {stat.value}
-                </p>
-              </div>
-              <div
-                className={`w-14 h-14 bg-gradient-to-br ${stat.gradient} rounded-lg flex items-center justify-center text-2xl`}
-              >
-                {stat.icon}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Quick Actions */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {quickActions.map((action) => (
-            <Link
-              key={action.title}
-              href={action.href}
-              className="group bg-white rounded-xl p-6 border border-gray-200 hover:shadow-xl transition-all hover:-translate-y-1"
+    <div className="h-full flex flex-col bg-white">
+      {/* Header with Model Selector */}
+      <div className="border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between max-w-5xl mx-auto">
+          <div className="flex items-center space-x-4">
+            <select
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-black"
             >
-              <div
-                className={`w-12 h-12 bg-gradient-to-br ${action.gradient} rounded-lg flex items-center justify-center text-2xl mb-4`}
-              >
-                {action.icon}
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
-                {action.title}
-              </h3>
-              <p className="text-gray-500 text-sm">{action.description}</p>
-              <div className="mt-4 flex items-center text-purple-600 font-medium">
-                Get started
-                <span className="ml-2 group-hover:translate-x-1 transition-transform">
-                  →
-                </span>
-              </div>
-            </Link>
-          ))}
+              {models.map((model) => (
+                <option key={model.id} value={model.id}>
+                  {model.name} {model.badge ? `(${model.badge})` : ''}
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className="px-4 py-2 text-sm text-gray-600 hover:text-black"
+            >
+              ⚙️ Settings
+            </button>
+          </div>
+          <div className="flex items-center space-x-3">
+            <span className="text-xs text-gray-500">Credits: 24</span>
+            <button className="px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-900">
+              Generate
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Recent Activity */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
-          Recent Activity
-        </h2>
-        <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-200">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="p-4 hover:bg-gray-50 transition-colors flex items-center justify-between"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full"></div>
+      {/* Main Content */}
+      <div className="flex-1 overflow-auto">
+        <div className="max-w-5xl mx-auto p-6">
+          {/* Settings Panel (Collapsible) */}
+          {showSettings && (
+            <div className="mb-6 p-6 bg-gray-50 border border-gray-200 rounded-lg">
+              <div className="grid grid-cols-3 gap-6">
                 <div>
-                  <p className="font-medium text-gray-900">
-                    Character created from photo
-                  </p>
-                  <p className="text-sm text-gray-500">{i} hours ago</p>
+                  <label className="block text-xs font-medium text-gray-700 mb-2">
+                    Video Duration
+                  </label>
+                  <select className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm">
+                    <option>5 seconds</option>
+                    <option>10 seconds</option>
+                    <option>15 seconds</option>
+                    <option>30 seconds</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-2">
+                    Aspect Ratio
+                  </label>
+                  <select className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm">
+                    <option>16:9 (Landscape)</option>
+                    <option>9:16 (Portrait)</option>
+                    <option>1:1 (Square)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-2">
+                    Camera Movement
+                  </label>
+                  <select className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm">
+                    <option>Static</option>
+                    <option>Zoom In</option>
+                    <option>Zoom Out</option>
+                    <option>Pan Left</option>
+                    <option>Pan Right</option>
+                    <option>360° Orbit</option>
+                  </select>
                 </div>
               </div>
-              <span className="text-sm text-gray-400">View →</span>
             </div>
-          ))}
+          )}
+
+          {/* Main Input Area */}
+          <div className="space-y-6">
+            {/* Script Input */}
+            <div>
+              <label className="block text-sm font-medium text-black mb-3">
+                What should your AI character say?
+              </label>
+              <textarea
+                value={script}
+                onChange={(e) => setScript(e.target.value)}
+                placeholder="Type your video script here... AI will generate a realistic video with lip-sync and natural movements."
+                rows={8}
+                className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black resize-none"
+              />
+              <div className="flex items-center justify-between mt-2">
+                <span className="text-xs text-gray-500">
+                  {script.length} characters · ~{Math.ceil(script.length / 150)} seconds
+                </span>
+                <button className="text-xs text-gray-600 hover:text-black">
+                  Use template
+                </button>
+              </div>
+            </div>
+
+            {/* Actor Selection */}
+            <div>
+              <label className="block text-sm font-medium text-black mb-3">
+                Select an AI Actor
+              </label>
+              <div className="grid grid-cols-6 gap-3">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSelectedActor(`actor-${i}`)}
+                    className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                      selectedActor === `actor-${i}`
+                        ? 'border-black'
+                        : 'border-gray-200 hover:border-gray-400'
+                    }`}
+                  >
+                    <img
+                      src={`https://api.dicebear.com/7.x/avataaars/svg?seed=Actor${i}`}
+                      alt={`Actor ${i}`}
+                      className="w-full h-full object-cover bg-gray-100"
+                    />
+                  </button>
+                ))}
+              </div>
+              <button className="mt-3 text-xs text-gray-600 hover:text-black">
+                Browse all 1000+ actors →
+              </button>
+            </div>
+
+            {/* Preview */}
+            <div>
+              <label className="block text-sm font-medium text-black mb-3">
+                Preview
+              </label>
+              <div className="aspect-video bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-5xl mb-3">🎬</div>
+                  <p className="text-sm text-gray-500">Video preview will appear here</p>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Using: {models.find((m) => m.id === selectedModel)?.name}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

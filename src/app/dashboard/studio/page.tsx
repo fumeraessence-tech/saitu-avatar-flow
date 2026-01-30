@@ -39,14 +39,14 @@ export default function StudioPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Video Studio</h1>
+          <h1 className="text-2xl font-bold text-black">Video Studio</h1>
           <p className="text-sm text-gray-500">Create cinematic AI videos with advanced controls</p>
         </div>
         <div className="flex items-center space-x-3">
           <button className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium">
             Save Draft
           </button>
-          <button className="px-6 py-2 bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white rounded-lg hover:shadow-lg transition-all text-sm font-medium">
+          <button className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-900 transition-all text-sm font-medium">
             Generate Video
           </button>
         </div>
@@ -57,7 +57,7 @@ export default function StudioPage() {
         <div className="col-span-7 space-y-6">
           {/* AI Model Selection */}
           <div className="bg-white rounded-2xl p-6 border border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">AI Video Model</h3>
+            <h3 className="text-sm font-semibold text-black mb-4">AI Video Model</h3>
             <div className="grid grid-cols-1 gap-3">
               {aiModels.map((model) => (
                 <button
@@ -65,18 +65,16 @@ export default function StudioPage() {
                   onClick={() => setSelectedModel(model.id)}
                   className={`relative p-4 rounded-xl border-2 transition-all text-left ${
                     selectedModel === model.id
-                      ? 'border-violet-500 bg-violet-50'
-                      : 'border-gray-200 hover:border-gray-300 bg-white'
+                      ? 'border-black bg-gray-50'
+                      : 'border-gray-200 hover:border-gray-400 bg-white'
                   }`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
-                        <h4 className="text-sm font-bold text-gray-900">{model.name}</h4>
+                        <h4 className="text-sm font-bold text-black">{model.name}</h4>
                         {model.badge && (
-                          <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
-                            model.badge === 'NEW' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
-                          }`}>
+                          <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-black text-white">
                             {model.badge}
                           </span>
                         )}
@@ -96,27 +94,27 @@ export default function StudioPage() {
           {/* Script Input */}
           <div className="bg-white rounded-2xl p-6 border border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-gray-900">Your Script</h3>
-              <button className="text-xs text-violet-600 hover:text-violet-700 font-medium">
-                ✨ AI Enhance
+              <h3 className="text-sm font-semibold text-black">Your Script</h3>
+              <button className="text-xs text-gray-700 hover:text-black font-medium">
+                AI Enhance
               </button>
             </div>
             <textarea
               value={script}
               onChange={(e) => setScript(e.target.value)}
-              placeholder="Enter your video script here... AI will suggest improvements and generate engaging content."
+              placeholder="Enter your video script here..."
               rows={6}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 text-sm resize-none"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black text-sm resize-none"
             />
             <div className="flex items-center justify-between mt-3">
               <p className="text-xs text-gray-500">{script.length} characters · ~{Math.ceil(script.length / 150)} seconds</p>
-              <button className="text-xs text-gray-600 hover:text-gray-900">Load Template</button>
+              <button className="text-xs text-gray-600 hover:text-black">Load Template</button>
             </div>
           </div>
 
           {/* Cinema Controls */}
           <div className="bg-white rounded-2xl p-6 border border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">Cinematic Camera</h3>
+            <h3 className="text-sm font-semibold text-black mb-4">Cinematic Camera</h3>
             <div className="grid grid-cols-4 gap-2">
               {cameraPresets.map((preset) => (
                 <button
@@ -124,12 +122,12 @@ export default function StudioPage() {
                   onClick={() => setCameraMovement(preset.id)}
                   className={`p-3 rounded-lg border-2 transition-all ${
                     cameraMovement === preset.id
-                      ? 'border-violet-500 bg-violet-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-black bg-gray-50'
+                      : 'border-gray-200 hover:border-gray-400'
                   }`}
                 >
                   <div className="text-2xl mb-1">{preset.icon}</div>
-                  <p className="text-xs font-medium text-gray-900">{preset.name}</p>
+                  <p className="text-xs font-medium text-black">{preset.name}</p>
                 </button>
               ))}
             </div>
@@ -137,13 +135,13 @@ export default function StudioPage() {
 
           {/* Advanced Settings */}
           <div className="bg-white rounded-2xl p-6 border border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">Advanced Settings</h3>
+            <h3 className="text-sm font-semibold text-black mb-4">Advanced Settings</h3>
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-2">
                   Video Duration
                 </label>
-                <select className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+                <select className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black">
                   <option>5 seconds</option>
                   <option>10 seconds</option>
                   <option>15 seconds</option>
@@ -159,7 +157,7 @@ export default function StudioPage() {
                   {['16:9', '9:16', '1:1', '4:5'].map((ratio) => (
                     <button
                       key={ratio}
-                      className="px-3 py-2 border border-gray-200 rounded-lg text-xs font-medium hover:border-violet-500 transition-all"
+                      className="px-3 py-2 border border-gray-200 rounded-lg text-xs font-medium hover:border-black transition-all"
                     >
                       {ratio}
                     </button>
@@ -174,8 +172,8 @@ export default function StudioPage() {
         <div className="col-span-5 space-y-6">
           {/* Preview */}
           <div className="bg-white rounded-2xl p-6 border border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">Preview</h3>
-            <div className="aspect-video bg-gradient-to-br from-violet-100 to-fuchsia-100 rounded-xl flex items-center justify-center">
+            <h3 className="text-sm font-semibold text-black mb-4">Preview</h3>
+            <div className="aspect-video bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200">
               {selectedActor ? (
                 <div className="text-center">
                   <div className="text-6xl mb-3">🎬</div>
@@ -194,8 +192,8 @@ export default function StudioPage() {
           {/* Actor Selection */}
           <div className="bg-white rounded-2xl p-6 border border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-gray-900">Select Actor</h3>
-              <button className="text-xs text-violet-600 hover:text-violet-700 font-medium">
+              <h3 className="text-sm font-semibold text-black">Select Actor</h3>
+              <button className="text-xs text-gray-700 hover:text-black font-medium">
                 View All (1000+)
               </button>
             </div>
@@ -206,14 +204,14 @@ export default function StudioPage() {
                   onClick={() => setSelectedActor(actor.id)}
                   className={`p-3 rounded-xl border-2 transition-all text-left ${
                     selectedActor === actor.id
-                      ? 'border-violet-500 bg-violet-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-black bg-gray-50'
+                      : 'border-gray-200 hover:border-gray-400'
                   }`}
                 >
-                  <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg mb-2 overflow-hidden">
+                  <div className="aspect-square bg-gray-100 rounded-lg mb-2 overflow-hidden border border-gray-200">
                     <img src={actor.preview} alt={actor.name} className="w-full h-full object-cover" />
                   </div>
-                  <h4 className="text-xs font-semibold text-gray-900">{actor.name}</h4>
+                  <h4 className="text-xs font-semibold text-black">{actor.name}</h4>
                   <p className="text-xs text-gray-500">{actor.age}y · {actor.ethnicity}</p>
                 </button>
               ))}
@@ -221,26 +219,26 @@ export default function StudioPage() {
           </div>
 
           {/* Generation Settings */}
-          <div className="bg-gradient-to-br from-violet-50 to-fuchsia-50 rounded-2xl p-6 border border-violet-200">
+          <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-sm font-semibold text-gray-900">Ready to Generate</h4>
-              <span className="px-2 py-1 bg-white rounded-lg text-xs font-medium text-gray-700">1 Credit</span>
+              <h4 className="text-sm font-semibold text-black">Ready to Generate</h4>
+              <span className="px-2 py-1 bg-white rounded-lg text-xs font-medium text-gray-700 border border-gray-200">1 Credit</span>
             </div>
             <div className="space-y-2 text-xs text-gray-600 mb-4">
               <div className="flex justify-between">
                 <span>Model:</span>
-                <span className="font-medium text-gray-900">{aiModels.find(m => m.id === selectedModel)?.name}</span>
+                <span className="font-medium text-black">{aiModels.find(m => m.id === selectedModel)?.name}</span>
               </div>
               <div className="flex justify-between">
                 <span>Camera:</span>
-                <span className="font-medium text-gray-900">{cameraPresets.find(c => c.id === cameraMovement)?.name}</span>
+                <span className="font-medium text-black">{cameraPresets.find(c => c.id === cameraMovement)?.name}</span>
               </div>
               <div className="flex justify-between">
                 <span>Est. Time:</span>
-                <span className="font-medium text-gray-900">2-3 minutes</span>
+                <span className="font-medium text-black">2-3 minutes</span>
               </div>
             </div>
-            <button className="w-full px-4 py-3 bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white rounded-xl hover:shadow-lg transition-all font-medium text-sm">
+            <button className="w-full px-4 py-3 bg-black text-white rounded-xl hover:bg-gray-900 transition-all font-medium text-sm">
               🎬 Generate Video
             </button>
           </div>
