@@ -1,400 +1,645 @@
 /**
- * Default DNA Configuration
- *
- * Provides baseline DNA values for new characters
+ * Default DNA Configurations & Presets
+ * Ready-to-use character templates
  */
 
-import { CharacterDNA } from '@/types/dna';
+import { CharacterDNA } from '@/types/character-dna';
 
-export const DEFAULT_DNA: CharacterDNA = {
+// ============================================================================
+// BASE DEFAULT DNA
+// ============================================================================
+
+export const defaultDNA: CharacterDNA = {
   version: '1.0',
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  generationCount: 0,
 
-  facialStructure: {
-    faceShape: 'oval',
-    faceWidth: 50,
-    faceLength: 50,
-    jawline: {
-      definition: 50,
-      width: 50,
-      shape: 'soft',
-      asymmetry: 2,
-    },
-    cheekbones: {
-      prominence: 50,
-      position: 'mid',
-      definition: 50,
-      width: 50,
-    },
-    forehead: {
-      height: 50,
-      width: 50,
-      shape: 'rounded',
-      prominence: 50,
-    },
-    chin: {
-      shape: 'rounded',
-      prominence: 50,
-      width: 50,
-    },
-    facialProportions: {
-      goldenRatioScore: 70,
-      symmetryScore: 85,
-      proportionMap: {},
+  core: {
+    id: '',
+    name: 'New Character',
+    age: 28,
+    ageRange: 'young-adult',
+    gender: 'female',
+    ethnicity: {
+      primary: 'Caucasian',
+      skinToneHex: '#F5CBA7',
     },
   },
 
-  eyeConfiguration: {
-    color: {
-      primary: '#8B4513',
-      pattern: 'solid',
-      depth: 70,
+  facialStructure: {
+    headShape: 'oval',
+    headWidth: 5,
+    headLength: 5,
+    faceWidth: 5,
+    faceLength: 5,
+    foreheadHeight: 5,
+    foreheadWidth: 5,
+    foreheadSlope: 'slight',
+    cheekboneProminence: 6,
+    cheekboneHeight: 'medium',
+    cheekboneWidth: 5,
+    cheekFullness: 5,
+    jawShape: 'defined',
+    jawWidth: 5,
+    jawProminence: 5,
+    chinShape: 'round',
+    chinWidth: 5,
+    chinHeight: 5,
+    chinProminence: 5,
+  },
+
+  eyes: {
+    eyeShape: 'almond',
+    eyeSize: 6,
+    eyeSpacing: 5,
+    irisColor: {
+      primary: '#4A7BA7',
+      pattern: 'radial',
+      limbalRing: true,
+      limbalRingIntensity: 7,
     },
-    shape: 'almond',
-    size: 50,
-    spacing: 50,
-    irisPattern: {
-      type: 'radial',
-      intensity: 60,
-      detail: 50,
-    },
-    pupilSize: 40,
-    eyelids: {
-      upper: {
-        fold: 'double',
-        thickness: 50,
-        droop: 10,
-      },
-      lower: {
-        bags: 10,
-        wrinkles: 10,
-        darkness: 15,
-      },
-    },
-    eyelashes: {
-      length: 60,
-      thickness: 50,
-      curl: 60,
-      density: 70,
-    },
-    eyeDepth: 50,
-    eyeAngle: 5,
-    sclera: {
-      clarity: 90,
-      color: '#FFFFFF',
-      veins: 10,
-    },
+    pupilSize: 'medium',
+    scleraClarity: 9,
+    scleraColor: '#FFFFFF',
+    upperEyelidExposure: 5,
+    lowerEyelidShape: 'slight-curve',
+    eyelidCrease: 'double',
+    upperLashLength: 7,
+    upperLashThickness: 6,
+    upperLashCurl: 7,
+    lowerLashLength: 4,
+    lowerLashThickness: 3,
+    lashColor: '#2C2416',
+    eyeOpenness: 7,
+    defaultGaze: 'direct',
+    underEyeCircles: 'slight',
+    underEyeCircleColor: '#E8D5C4',
+    underEyeBags: 2,
   },
 
   eyebrows: {
     shape: 'soft-arch',
-    thickness: 50,
-    length: 70,
     arch: {
-      position: 'middle',
-      height: 50,
-      angle: 40,
+      hasArch: true,
+      archHeight: 6,
+      archPosition: 'middle',
     },
-    spacing: 50,
-    position: 50,
-    color: '#4A3728',
-    opacity: 90,
-    texture: 'mixed',
-    density: 70,
-    asymmetry: 3,
-    grayHairs: 0,
+    thickness: 5,
+    length: 7,
+    width: 5,
+    hairColor: '#5D4E37',
+    hairDensity: 7,
+    hairDirection: 'slightly-upward',
+    tailThickness: 4,
+    grooming: 'groomed',
+    texture: 'smooth',
   },
 
   nose: {
-    bridgeWidth: 45,
-    bridgeHeight: 50,
+    noseType: 'straight',
+    bridgeHeight: 5,
+    bridgeWidth: 5,
     bridgeShape: 'straight',
-    tip: {
-      shape: 'rounded',
-      width: 50,
-      projection: 50,
-      angle: 50,
-    },
-    nostrils: {
-      width: 45,
-      flare: 30,
-      shape: 'oval',
-      visibility: 40,
-    },
-    length: 50,
-    profile: 'straight',
-    asymmetry: 2,
+    tipShape: 'round',
+    tipWidth: 5,
+    tipProtrusion: 5,
+    tipRotation: 0,
+    nostrilWidth: 5,
+    nostrilShape: 'oval',
+    nostrilVisibility: 4,
+    nostrilFlare: 3,
+    noseLength: 5,
+    columellaShow: 4,
+    nasalAngle: 105,
   },
 
-  mouthLips: {
-    upperLip: {
-      thickness: 45,
-      cupidsBow: 'subtle',
-      curve: 50,
+  mouth: {
+    upperLipShape: 'cupids-bow',
+    lowerLipShape: 'full',
+    mouthWidth: 6,
+    upperLipThickness: 5,
+    lowerLipThickness: 6,
+    lipProtrusion: 5,
+    lipAsymmetry: 1,
+    cupidsBowDefinition: 7,
+    cupidsBowPeaks: 'medium',
+    lipColor: {
+      natural: '#D4968E',
+      upperLipColor: '#C98580',
+      lowerLipColor: '#E0A69D',
     },
-    lowerLip: {
-      thickness: 50,
-      fullness: 50,
-    },
-    width: 50,
-    color: '#D4827C',
-    texture: 'smooth',
-    shine: 40,
-    corners: {
-      position: 'neutral',
-      depth: 30,
-    },
-    philtrum: {
-      length: 50,
-      depth: 40,
-      definition: 50,
-    },
-    teeth: {
-      visibility: 20,
-      color: '#F5F5F5',
-      alignment: 'natural',
-      size: 50,
-    },
-    lipLines: 10,
-    asymmetry: 2,
+    lipTexture: 'smooth',
+    lipMoisture: 7,
+    philtrumDepth: 5,
+    philtrumLength: 5,
+    lipLineDefinition: 6,
+    teethVisibility: 'hidden',
+    teethColor: '#F8F8F0',
+    teethAlignment: 'slight-imperfect',
+    mouthResting: 'relaxed',
+    mouthCorners: 'slightly-upturned',
   },
 
-  hairSystem: {
-    color: {
-      primary: '#3D2817',
-      pattern: 'solid',
-    },
-    texture: 'straight',
-    length: {
-      front: 60,
-      back: 70,
-      sides: 50,
-      overall: 'medium',
-    },
-    density: 70,
-    style: 'natural-flow',
-    parting: 'left',
-    volume: 60,
-    shine: 50,
-    curlPattern: {
-      type: 'loose',
-      definition: 30,
-    },
-    hairline: {
-      shape: 'rounded',
-      definition: 70,
-    },
-    grayHairs: 0,
-    flyaways: 15,
-  },
-
-  skinSystem: {
-    tone: {
-      base: '#F5D4C1',
+  skin: {
+    baseTone: {
+      hex: '#F5CBA7',
       undertone: 'warm',
-      variation: 10,
+      undertoneIntensity: 6,
     },
     texture: {
-      smoothness: 75,
-      poreSize: 30,
-      poreVisibility: 25,
-      oiliness: 40,
-      roughness: 10,
+      smoothness: 7,
+      poreVisibility: 6,
+      poreSize: 'fine',
+      poreDistribution: 'even',
+      hasVisiblePores: true,
+      hasTextureVariation: true,
+      hasMicroTexture: true,
     },
-    features: {
-      freckles: {
-        present: false,
-        density: 0,
-        size: 30,
-        color: '#D4A373',
-        distribution: 'nose-cheeks',
-      },
-      moles: {
-        present: false,
-        locations: [],
-      },
-      birthmarks: {
-        present: false,
-        locations: [],
-      },
-      wrinkles: {
-        foreheadLines: 5,
-        crowsFeet: 5,
-        smileLines: 10,
-        marionette: 5,
-        overall: 8,
-        age: 28,
-      },
+    freckles: {
+      has: true,
+      coverage: 4,
+      distribution: 'nose-cheeks',
+      color: '#C19A6B',
+      size: 'fine',
+      season: 'sun-exposed',
     },
-    complexion: 'clear',
-    luminosity: 60,
-    redness: 15,
+    beautyMarks: {
+      has: false,
+      positions: [],
+    },
+    blemishes: {
+      level: 'minimal',
+      types: [],
+    },
+    redness: {
+      level: 3,
+      distribution: 'cheeks',
+    },
+    oiliness: {
+      level: 5,
+      distribution: 't-zone',
+    },
+    fineLines: {
+      level: 'minimal',
+      locations: [],
+      depth: 2,
+    },
+    wrinkles: {
+      level: 'none',
+      type: [],
+    },
+    lightingResponse: {
+      highlight: 'moderate',
+      highlightAreas: ['forehead', 'cheekbones', 'nose-bridge'],
+      shadowDepth: 5,
+      subsurfaceScattering: 8,
+    },
   },
 
-  bodyConfiguration: {
-    build: 'average',
-    height: 50,
-    shoulders: {
-      width: 50,
-      shape: 'average',
+  hair: {
+    color: {
+      base: '#6B4423',
+      highlights: ['#8B6F47'],
+      lowlights: ['#4A2C0F'],
+      roots: '#5A3A1D',
+      hasOmbre: false,
+      hasBalayage: true,
+      grayPercentage: 0,
     },
-    neckLength: 50,
-    neckWidth: 45,
+    texture: 'wavy',
+    texturePattern: '2b',
+    curlTightness: 5,
+    strandThickness: 'medium',
+    density: 7,
+    volume: 7,
+    length: {
+      overall: 'shoulder',
+      front: 16,
+      sides: 16,
+      back: 18,
+    },
+    hairlineShape: 'rounded',
+    hairlineHeight: 'medium',
+    style: 'natural',
+    parting: 'center',
+    layers: 'light-layers',
+    bangs: 'none',
+    shine: 7,
+    health: 8,
+    flyaways: 3,
+  },
+
+  facialHair: {
+    has: false,
+    style: 'clean-shaven',
+    coverage: {
+      mustache: false,
+      chin: false,
+      jawline: false,
+      cheeks: false,
+      neck: false,
+    },
+    length: 1,
+    thickness: 1,
+    color: '#000000',
+    grooming: 'natural',
+    texture: 'soft',
+  },
+
+  body: {
+    build: 'slim',
+    height: 170,
+    shoulderWidth: 5,
+    torsoLength: 5,
+    legLength: 5,
     posture: 'upright',
-    proportions: {
-      shoulderToHipRatio: 1.0,
-      torsoLength: 50,
+    shoulderPosition: 'relaxed',
+    neckLength: 5,
+    neckThickness: 4,
+    shoulderSlope: 'slight-slope',
+    handSize: 'medium',
+    fingerLength: 'average',
+    nailLength: 'short',
+    nailShape: 'rounded',
+  },
+
+  distinguishingFeatures: {
+    birthmarks: [],
+    scars: [],
+    tattoos: [],
+    piercings: [],
+    glasses: {
+      has: false,
+    },
+    jewelry: {
+      has: false,
     },
   },
 
-  distinguishingFeatures: {},
-
-  expressionPersonality: {
-    defaultExpression: 'friendly',
-    eyeExpression: 'warm',
-    microExpressions: {
-      smileAsymmetry: 5,
-      eyebrowRaise: 15,
-      eyeCrease: 20,
-      noseScrunch: 10,
-    },
-    emoteRange: {
-      expressiveness: 65,
-      naturalness: 80,
-    },
-    personalityTraits: ['friendly', 'professional'],
-    blinkRate: 17, // natural blink rate
-    headMovement: 40,
-    gestureFrequency: 30,
+  expression: {
+    defaultExpression: 'relaxed',
+    eyebrowPosition: 'neutral',
+    mouthExpression: 'slight-upturn',
+    demeanor: 'friendly',
+    approachability: 8,
+    confidence: 7,
+    eyeWarmth: 8,
+    smileReach: 'eyes',
   },
 
-  voiceProfile: {
-    provider: 'elevenlabs',
-    characteristics: {
-      pitch: 'medium',
-      speed: 1.0,
-      tone: 'friendly',
-      age: 'middle',
-      gender: 'neutral',
+  photography: {
+    lighting: {
+      type: 'natural',
+      direction: '45-degree',
+      intensity: 7,
+      softness: 8,
+      colorTemperature: 5500,
     },
-    style: {
-      pacing: 'moderate',
-      emphasis: 50,
-      pauses: 50,
-      emotion: 60,
+    camera: {
+      lensType: '85mm',
+      aperture: 'f/1.8',
+      depthOfField: 'shallow',
+      focus: 'eyes',
     },
-    lipSync: {
-      accuracy: 'high',
-      naturalnessLevel: 85,
+    shotType: 'closeup',
+    angle: 'eye-level',
+    framing: 'centered',
+    background: {
+      type: 'gradient',
+      color: '#F5F5F0',
+      blur: 9,
+    },
+    postProcessing: {
+      style: 'natural',
+      colorGrading: 'warm',
+      contrast: 6,
+      sharpness: 8,
+      clarity: 7,
     },
   },
+};
 
-  metadata: {
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    generationCount: 0,
-    creationMethod: 'manual',
-    consistency: {
-      score: 100,
-      lastChecked: new Date().toISOString(),
+// ============================================================================
+// CHARACTER PRESETS
+// ============================================================================
+
+/**
+ * Preset 1: Sarah - Girl Next Door
+ * Caucasian, brown hair, blue eyes, freckles
+ */
+export const presetSarah: CharacterDNA = {
+  ...defaultDNA,
+  core: {
+    ...defaultDNA.core,
+    name: 'Sarah',
+    age: 25,
+    ageRange: 'young-adult',
+    gender: 'female',
+    ethnicity: {
+      primary: 'Caucasian',
+      skinToneHex: '#FBE4D5',
     },
-    tags: [],
-    category: 'realistic',
+  },
+  eyes: {
+    ...defaultDNA.eyes,
+    irisColor: {
+      primary: '#5B9BD5',
+      pattern: 'radial',
+      limbalRing: true,
+      limbalRingIntensity: 8,
+    },
+  },
+  hair: {
+    ...defaultDNA.hair,
+    color: {
+      base: '#8B6F47',
+      highlights: ['#B08D57'],
+      lowlights: ['#6B5634'],
+      roots: '#7A5F3A',
+      hasOmbre: false,
+      hasBalayage: true,
+      grayPercentage: 0,
+    },
+    texture: 'wavy',
+    texturePattern: '2b',
+  },
+  skin: {
+    ...defaultDNA.skin,
+    freckles: {
+      has: true,
+      coverage: 6,
+      distribution: 'nose-cheeks',
+      color: '#D4A574',
+      size: 'fine',
+      season: 'sun-exposed',
+    },
   },
 };
 
 /**
- * Pre-defined character templates for quick start
+ * Preset 2: Marcus - Professional Male
+ * East Asian, black hair, brown eyes
  */
-export const CHARACTER_TEMPLATES: Record<string, Partial<CharacterDNA>> = {
-  'professional-male': {
-    facialStructure: {
-      ...DEFAULT_DNA.facialStructure,
-      faceShape: 'square',
-      jawline: {
-        definition: 70,
-        width: 65,
-        shape: 'angular',
-        asymmetry: 1,
-      },
-    },
-    expressionPersonality: {
-      ...DEFAULT_DNA.expressionPersonality,
-      defaultExpression: 'confident',
-      personalityTraits: ['professional', 'authoritative', 'confident'],
-    },
-    voiceProfile: {
-      ...DEFAULT_DNA.voiceProfile!,
-      characteristics: {
-        ...DEFAULT_DNA.voiceProfile!.characteristics,
-        pitch: 'low',
-        tone: 'authoritative',
-        gender: 'masculine',
-      },
+export const presetMarcus: CharacterDNA = {
+  ...defaultDNA,
+  core: {
+    ...defaultDNA.core,
+    name: 'Marcus',
+    age: 32,
+    ageRange: 'adult',
+    gender: 'male',
+    ethnicity: {
+      primary: 'East Asian',
+      skinToneHex: '#F1C27D',
     },
   },
-
-  'friendly-female': {
-    facialStructure: {
-      ...DEFAULT_DNA.facialStructure,
-      faceShape: 'heart',
-      jawline: {
-        definition: 45,
-        width: 45,
-        shape: 'soft',
-        asymmetry: 2,
-      },
-    },
-    expressionPersonality: {
-      ...DEFAULT_DNA.expressionPersonality,
-      defaultExpression: 'smile',
-      eyeExpression: 'warm',
-      personalityTraits: ['friendly', 'empathetic', 'energetic'],
-    },
-    voiceProfile: {
-      ...DEFAULT_DNA.voiceProfile!,
-      characteristics: {
-        ...DEFAULT_DNA.voiceProfile!.characteristics,
-        pitch: 'medium',
-        tone: 'warm',
-        gender: 'feminine',
-      },
+  eyes: {
+    ...defaultDNA.eyes,
+    eyeShape: 'monolid',
+    irisColor: {
+      primary: '#3E2723',
+      pattern: 'solid',
+      limbalRing: true,
+      limbalRingIntensity: 6,
     },
   },
+  hair: {
+    ...defaultDNA.hair,
+    color: {
+      base: '#1A1A1A',
+      highlights: [],
+      lowlights: [],
+      roots: '#0D0D0D',
+      hasOmbre: false,
+      hasBalayage: false,
+      grayPercentage: 2,
+    },
+    texture: 'straight',
+    texturePattern: '1b',
+    length: {
+      overall: 'short',
+      front: 3,
+      sides: 2,
+      back: 2,
+    },
+  },
+  skin: {
+    ...defaultDNA.skin,
+    baseTone: {
+      hex: '#F1C27D',
+      undertone: 'neutral',
+      undertoneIntensity: 5,
+    },
+    freckles: {
+      has: false,
+      coverage: 0,
+      distribution: 'nose-cheeks',
+      color: '#000000',
+      size: 'fine',
+      season: 'year-round',
+    },
+  },
+  facialHair: {
+    has: true,
+    style: 'stubble',
+    coverage: {
+      mustache: true,
+      chin: true,
+      jawline: true,
+      cheeks: true,
+      neck: false,
+    },
+    length: 2,
+    thickness: 6,
+    color: '#1A1A1A',
+    grooming: 'trimmed',
+    texture: 'coarse',
+  },
+};
 
-  'energetic-young': {
-    skinSystem: {
-      ...DEFAULT_DNA.skinSystem,
-      features: {
-        ...DEFAULT_DNA.skinSystem.features,
-        wrinkles: {
-          foreheadLines: 0,
-          crowsFeet: 0,
-          smileLines: 2,
-          marionette: 0,
-          overall: 1,
-          age: 22,
-        },
-      },
+/**
+ * Preset 3: Aisha - South Asian Beauty
+ * South Asian, black hair, brown eyes
+ */
+export const presetAisha: CharacterDNA = {
+  ...defaultDNA,
+  core: {
+    ...defaultDNA.core,
+    name: 'Aisha',
+    age: 26,
+    ageRange: 'young-adult',
+    gender: 'female',
+    ethnicity: {
+      primary: 'South Asian',
+      skinToneHex: '#C68642',
     },
-    expressionPersonality: {
-      ...DEFAULT_DNA.expressionPersonality,
-      defaultExpression: 'excited',
-      personalityTraits: ['energetic', 'playful', 'confident'],
+  },
+  eyes: {
+    ...defaultDNA.eyes,
+    eyeShape: 'almond',
+    irisColor: {
+      primary: '#5C4033',
+      pattern: 'radial',
+      limbalRing: true,
+      limbalRingIntensity: 9,
     },
-    voiceProfile: {
-      ...DEFAULT_DNA.voiceProfile!,
-      characteristics: {
-        ...DEFAULT_DNA.voiceProfile!.characteristics,
-        pitch: 'high',
-        tone: 'energetic',
-        age: 'young',
-      },
-      style: {
-        pacing: 'fast',
-        emphasis: 70,
-        pauses: 40,
-        emotion: 80,
-      },
+    upperLashLength: 8,
+    upperLashThickness: 7,
+  },
+  hair: {
+    ...defaultDNA.hair,
+    color: {
+      base: '#0F0A08',
+      highlights: [],
+      lowlights: [],
+      roots: '#000000',
+      hasOmbre: false,
+      hasBalayage: false,
+      grayPercentage: 0,
+    },
+    texture: 'straight',
+    texturePattern: '1a',
+    length: {
+      overall: 'mid-back',
+      front: 24,
+      sides: 24,
+      back: 26,
+    },
+    shine: 9,
+  },
+  skin: {
+    ...defaultDNA.skin,
+    baseTone: {
+      hex: '#C68642',
+      undertone: 'warm',
+      undertoneIntensity: 7,
+    },
+    freckles: {
+      has: false,
+      coverage: 0,
+      distribution: 'nose-cheeks',
+      color: '#000000',
+      size: 'fine',
+      season: 'year-round',
     },
   },
 };
+
+/**
+ * Preset 4: Alex - Mature Professional
+ * Caucasian, salt-and-pepper hair, green eyes
+ */
+export const presetAlex: CharacterDNA = {
+  ...defaultDNA,
+  core: {
+    ...defaultDNA.core,
+    name: 'Alex',
+    age: 45,
+    ageRange: 'mature',
+    gender: 'male',
+    ethnicity: {
+      primary: 'Caucasian',
+      skinToneHex: '#E8C9A7',
+    },
+  },
+  eyes: {
+    ...defaultDNA.eyes,
+    irisColor: {
+      primary: '#6B8E23',
+      pattern: 'radial',
+      limbalRing: true,
+      limbalRingIntensity: 5,
+    },
+    underEyeCircles: 'moderate',
+    underEyeBags: 4,
+  },
+  hair: {
+    ...defaultDNA.hair,
+    color: {
+      base: '#6B6B6B',
+      highlights: ['#FFFFFF'],
+      lowlights: ['#404040'],
+      roots: '#808080',
+      hasOmbre: false,
+      hasBalayage: false,
+      grayPercentage: 50,
+    },
+    length: {
+      overall: 'short',
+      front: 4,
+      sides: 3,
+      back: 3,
+    },
+  },
+  skin: {
+    ...defaultDNA.skin,
+    fineLines: {
+      level: 'moderate',
+      locations: ['eyes', 'forehead', 'smile-lines'],
+      depth: 5,
+    },
+    wrinkles: {
+      level: 'minimal',
+      type: ['crows-feet'],
+    },
+  },
+  facialHair: {
+    has: true,
+    style: 'light-beard',
+    coverage: {
+      mustache: true,
+      chin: true,
+      jawline: true,
+      cheeks: true,
+      neck: false,
+    },
+    length: 4,
+    thickness: 7,
+    color: '#6B6B6B',
+    grooming: 'trimmed',
+    texture: 'coarse',
+  },
+};
+
+// ============================================================================
+// PRESET REGISTRY
+// ============================================================================
+
+export const presetRegistry = {
+  default: defaultDNA,
+  sarah: presetSarah,
+  marcus: presetMarcus,
+  aisha: presetAisha,
+  alex: presetAlex,
+};
+
+export type PresetName = keyof typeof presetRegistry;
+
+/**
+ * Get preset by name
+ */
+export function getPreset(name: PresetName): CharacterDNA {
+  return JSON.parse(JSON.stringify(presetRegistry[name])); // Deep clone
+}
+
+/**
+ * Get all preset names
+ */
+export function getPresetNames(): PresetName[] {
+  return Object.keys(presetRegistry) as PresetName[];
+}
+
+/**
+ * Create new DNA from preset
+ */
+export function createFromPreset(presetName: PresetName, overrides?: Partial<CharacterDNA>): CharacterDNA {
+  const preset = getPreset(presetName);
+  return {
+    ...preset,
+    ...overrides,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    generationCount: 0,
+  };
+}
