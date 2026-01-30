@@ -20,7 +20,7 @@ import type {
   ExpressionPersonality,
   VoiceProfile,
 } from '@/types/dna';
-import { DEFAULT_DNA } from './defaults';
+import { defaultDNA } from './defaults';
 
 // ============================================
 // ZOD SCHEMAS
@@ -511,10 +511,10 @@ export class DNAValidator {
    */
   static sanitize(dna: Partial<CharacterDNA>): CharacterDNA {
     const sanitized: CharacterDNA = {
-      ...DEFAULT_DNA,
+      ...defaultDNA,
       ...dna,
       metadata: {
-        ...DEFAULT_DNA.metadata,
+        ...defaultDNA.metadata,
         ...dna.metadata,
         updatedAt: new Date().toISOString(),
       },

@@ -19,7 +19,7 @@ import type {
   PhotoAnalysisResult,
   PhotoExtractionOptions,
 } from '@/types/dna';
-import { DEFAULT_DNA } from './defaults';
+import { defaultDNA } from './defaults';
 
 // ============================================
 // CONFIGURATION
@@ -235,97 +235,97 @@ export class PhotoExtractionService {
     options: PhotoExtractionOptions
   ): Partial<CharacterDNA> {
     const dna: Partial<CharacterDNA> = {
-      ...DEFAULT_DNA,
+      ...defaultDNA,
 
       // Facial Structure
       facialStructure: {
-        ...DEFAULT_DNA.facialStructure,
-        faceShape: analysis.faceShape || DEFAULT_DNA.facialStructure.faceShape,
+        ...defaultDNA.facialStructure,
+        faceShape: analysis.faceShape || defaultDNA.facialStructure.faceShape,
         jawline: {
-          ...DEFAULT_DNA.facialStructure.jawline,
+          ...defaultDNA.facialStructure.jawline,
           definition: analysis.jawlineDefinition || 50,
         },
         cheekbones: {
-          ...DEFAULT_DNA.facialStructure.cheekbones,
+          ...defaultDNA.facialStructure.cheekbones,
           prominence: analysis.cheekboneProminence || 50,
         },
         forehead: {
-          ...DEFAULT_DNA.facialStructure.forehead,
+          ...defaultDNA.facialStructure.forehead,
           height: analysis.foreheadHeight || 50,
         },
       },
 
       // Eye Configuration
       eyeConfiguration: {
-        ...DEFAULT_DNA.eyeConfiguration,
+        ...defaultDNA.eyeConfiguration,
         color: {
-          primary: analysis.eyeColor || DEFAULT_DNA.eyeConfiguration.color.primary,
+          primary: analysis.eyeColor || defaultDNA.eyeConfiguration.color.primary,
           pattern: 'solid',
           depth: 70,
         },
-        shape: analysis.eyeShape || DEFAULT_DNA.eyeConfiguration.shape,
+        shape: analysis.eyeShape || defaultDNA.eyeConfiguration.shape,
         size: analysis.eyeSize || 50,
         spacing: analysis.eyeSpacing || 50,
       },
 
       // Eyebrows
       eyebrows: {
-        ...DEFAULT_DNA.eyebrows,
-        shape: analysis.eyebrowShape || DEFAULT_DNA.eyebrows.shape,
+        ...defaultDNA.eyebrows,
+        shape: analysis.eyebrowShape || defaultDNA.eyebrows.shape,
         thickness: analysis.eyebrowThickness || 50,
       },
 
       // Nose
       nose: {
-        ...DEFAULT_DNA.nose,
-        profile: analysis.noseShape || DEFAULT_DNA.nose.profile,
+        ...defaultDNA.nose,
+        profile: analysis.noseShape || defaultDNA.nose.profile,
         bridgeWidth: analysis.noseBridgeWidth || 50,
         length: analysis.noseLength || 50,
       },
 
       // Mouth & Lips
       mouthLips: {
-        ...DEFAULT_DNA.mouthLips,
+        ...defaultDNA.mouthLips,
         upperLip: {
-          ...DEFAULT_DNA.mouthLips.upperLip,
+          ...defaultDNA.mouthLips.upperLip,
           thickness: analysis.lipThickness || 50,
         },
         lowerLip: {
-          ...DEFAULT_DNA.mouthLips.lowerLip,
+          ...defaultDNA.mouthLips.lowerLip,
           thickness: (analysis.lipThickness || 50) + 5,
         },
         width: analysis.lipWidth || 50,
-        color: analysis.lipColor || DEFAULT_DNA.mouthLips.color,
+        color: analysis.lipColor || defaultDNA.mouthLips.color,
       },
 
       // Hair System
       hairSystem: {
-        ...DEFAULT_DNA.hairSystem,
+        ...defaultDNA.hairSystem,
         color: {
-          primary: analysis.hairColor || DEFAULT_DNA.hairSystem.color.primary,
+          primary: analysis.hairColor || defaultDNA.hairSystem.color.primary,
           pattern: 'solid',
         },
-        texture: analysis.hairTexture || DEFAULT_DNA.hairSystem.texture,
+        texture: analysis.hairTexture || defaultDNA.hairSystem.texture,
         length: {
-          ...DEFAULT_DNA.hairSystem.length,
-          overall: analysis.hairLength || DEFAULT_DNA.hairSystem.length.overall,
+          ...defaultDNA.hairSystem.length,
+          overall: analysis.hairLength || defaultDNA.hairSystem.length.overall,
         },
       },
 
       // Skin System
       skinSystem: {
-        ...DEFAULT_DNA.skinSystem,
+        ...defaultDNA.skinSystem,
         tone: {
           base: options.matchSkinTone && analysis.skinTone
             ? analysis.skinTone
-            : DEFAULT_DNA.skinSystem.tone.base,
-          undertone: analysis.skinUndertone || DEFAULT_DNA.skinSystem.tone.undertone,
+            : defaultDNA.skinSystem.tone.base,
+          undertone: analysis.skinUndertone || defaultDNA.skinSystem.tone.undertone,
           variation: 10,
         },
         features: {
-          ...DEFAULT_DNA.skinSystem.features,
+          ...defaultDNA.skinSystem.features,
           wrinkles: {
-            ...DEFAULT_DNA.skinSystem.features.wrinkles,
+            ...defaultDNA.skinSystem.features.wrinkles,
             age: analysis.apparentAge || 30,
             overall: this.calculateWrinklesFromAge(analysis.apparentAge || 30),
           },
@@ -334,12 +334,12 @@ export class PhotoExtractionService {
 
       // Distinguishing Features
       distinguishingFeatures: {
-        ...DEFAULT_DNA.distinguishingFeatures,
+        ...defaultDNA.distinguishingFeatures,
       },
 
       // Metadata
       metadata: {
-        ...DEFAULT_DNA.metadata,
+        ...defaultDNA.metadata,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         creationMethod: 'photo-extraction',
